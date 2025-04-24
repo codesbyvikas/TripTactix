@@ -71,7 +71,7 @@ const SignupPage = () => {
                         <button
                             onClick={handleSignup}
                             className='w-full bg-transparent border border-white text-white my-2 font-semibold rounded-md p-4 text-center flex items-center justify-center cursor-pointer'>
-                            Sign Up With Email and Password
+                            Signup With Email and Password
                         </button>
                     </div>
 
