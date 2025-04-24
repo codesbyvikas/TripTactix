@@ -12,9 +12,7 @@ const userSchema = new Schema({
     required: true,
     unique: true,
   },
-  salt: {
-    type: String,
-  },
+  salt: String,
   password: {
     type: String,
     required: true,
@@ -25,21 +23,21 @@ const userSchema = new Schema({
 userSchema.pre("save", function (next) {
   const user = this;
 
-  if (!user.isModified("password")) return next(); // FIXED
+  if (!user.isModified("password")) return next();
 
-  const salt = randomBytes(16).toString("hex"); // FIXED
+  const salt = randomBytes(16).toString("hex");
   const hashedPassword = createHmac("sha256", salt)
     .update(user.password)
     .digest("hex");
 
-  user.salt = salt; // FIXED
+  user.salt = salt;
   user.password = hashedPassword;
 
   next();
 });
 
-// Static method to validate and return JWT
-userSchema.static("matchedPasswordAndGenerateToken", async function (email, password) {
+// Static method for login
+userSchema.static("matchPasswordAndGenerateToken", async function (email, password) {
   const user = await this.findOne({ email });
   if (!user) throw new Error("User not found");
 
@@ -55,5 +53,5 @@ userSchema.static("matchedPasswordAndGenerateToken", async function (email, pass
   return token;
 });
 
-const USER = model("user", userSchema);
-module.exports = USER;
+const User = model("user", userSchema);
+module.exports = User;
