@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import '../styles/styles.css';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
+import { apiHelper } from '../../lib/apiHelper';
+
 
 const SignupPage = () => {
     const [name, setName] = useState('');
@@ -12,34 +14,17 @@ const SignupPage = () => {
     const navigate = useNavigate();
 
     const handleSignup = async () => {
-        try {
-            const response = await fetch("http://localhost:5000/user/signup", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    fullName: name,
-                    email,
-                    password
-                })
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || "Signup failed");
-            }
-
-            const data = await response.json();
-            console.log("Signup success:", data);
-
-            // Redirect to login or dashboard
-            navigate('/login');
-        } catch (err) {
-            console.error(err.message);
-            setError(err.message);
+        setError("");
+        const result = await apiHelper.signup({ fullName: name, email, password });
+    
+        if (result.error) {
+          setError(result.error);
+        } else {
+          // Success - handle navigation or show success message
+          console.log("Signup success:", result.data);
+          // e.g. navigate to login page or dashboard
         }
-    };
+      };
 
     return (
         <div className='w-full h-screen flex'>
