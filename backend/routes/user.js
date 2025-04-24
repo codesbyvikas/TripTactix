@@ -5,7 +5,6 @@ const router = Router();
 
 
 router.post("/signup", async (req, res) => {
-  console.log("Incoming body:", req.body); // 👈 add this
 
   const { fullName, email, password } = req.body;
 
