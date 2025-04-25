@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../styles/styles.css';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
-import { apiHelper } from '../../lib/apiHelper';
+import { apiHelper } from '../lib/apiHelper';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
