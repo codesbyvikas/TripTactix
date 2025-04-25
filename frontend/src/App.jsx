@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage';
 
 function App() {
   return (
+    
     <Routes>
       <Route path="/" element={<HomePage />} /> {/* or a Home page */}
       <Route path="/signup" element={<SignupPage />} />
