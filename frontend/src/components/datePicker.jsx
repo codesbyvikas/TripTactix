@@ -87,10 +87,13 @@ function CustomDatePicker({ onDateChange }) {
             selected={date}
             onSelect={handleDateSelect}
             className="text-gray-900 dark:text-gray-100"
-            classNames={{
-              day_selected: "bg-[#0A65B3] text-white hover:bg-blue-600 hover:text-white",
-              day_today: "bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50"
-            }}
+            // classNames={{
+            //   day_selected: "bg-[#0A65B3] text-white hover:bg-blue-600 hover:text-white",
+            //   day_today: "bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-50"
+            // }}
+            disabled={(date) =>
+              date < new Date() 
+            }
           />
           </div>
         </PopoverContent>

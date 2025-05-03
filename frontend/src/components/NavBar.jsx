@@ -40,7 +40,7 @@ export default function NavBar() {
 
   return (
     <header className="bg-white">
-      <nav aria-label="Global" className="mx-auto flex max-w-full items-left justify-left p-6 lg:px-8 bg-[#0A1429]">
+      <nav aria-label="Global" className="mx-auto flex max-w-full items-left justify-left px-6 pt-4 pb-0 lg:px-8 bg-[#0A1428]">
         <div className="flex lg:flex-1">
           <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only text-white">TripTactix</span>

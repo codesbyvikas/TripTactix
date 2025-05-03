@@ -1,6 +1,8 @@
+require('dotenv').config();
 const express = require("express");
 const mongoose = require("mongoose");
 const userRoutes = require("./routes/user");
+const plannerRoutes = require("./routes/planner");
 const cookieParser = require("cookie-parser")
 const checkForAuthCookie = require("./middlewares/auth");
 const cors = require("cors");
@@ -11,13 +13,14 @@ const PORT = 5000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// Allow requests from your React app
+
 app.use(cors({
-  origin: "http://localhost:5173", // your frontend URL
+  origin: "http://localhost:5173", 
   credentials: true
 }));
 app.use(checkForAuthCookie("token"));
 app.use('/user', userRoutes);
+app.use('/plan', plannerRoutes)
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/TripTactix")
