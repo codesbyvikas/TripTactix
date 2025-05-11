@@ -1,6 +1,6 @@
 // components/Layout.jsx
 import React from 'react';
-import Navbar from './Navbar';
+import Navbar from './navBar';
 import Footer from '../components/footer'
 
 

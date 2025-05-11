@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage';
 import PlannerPage from './pages/PlannerPage';
 import HomePage from './pages/HomePage';
 import Layout from './components/Layout';
+import IternaryDisplayPage from './pages/IternaryDisplayPage';
 
 function App() {
   const location = useLocation();
@@ -36,8 +37,21 @@ function App() {
           )
         }
       />
+      <Route
+        path="/iternary-result"
+        element={
+          !isAuthPage ? (
+            <Layout>
+              <IternaryDisplayPage />
+            </Layout>
+          ) : (
+            <IternaryDisplayPage />
+          )
+        }
+      />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/login" element={<LoginPage />} />
+      {/* <Route path="/iternary-result" element={<IternaryDisplayPage />} /> */}
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
