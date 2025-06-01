@@ -60,7 +60,7 @@ const IternaryDisplayPage = () => {
   }
 
   return (
-    <div className="h-full w-full bg-[#0A1429] relative max-w-1200px mx-100px my-auto flex flex-col justify-center items-center p-40">
+    <div className="h-auto w-full bg-[#0A1429] relative max-w-1200px mx-100px my-auto flex flex-col  p-40 my-0">
       <div className="w-full bg-gray-900 rounded-xl p-6 text-white shadow-lg flex items-center flex-col mb-6">
         <div className='flex flex-row items-center mb-4'>
           <h3 className="font-medium text-xl mr-4">Trip Summary</h3>

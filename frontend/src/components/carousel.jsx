@@ -35,14 +35,22 @@ const itinerary = [
 
 export function CarouselDays() {
   return (
-    <Carousel className="w-full  border border-blue-500 bg-[#0A1429] rounded-lg shadow-lg">
+    <Carousel className="w-full border border-blue-500 bg-[#0A1429] rounded-lg shadow-lg">
       <CarouselContent>
         {itinerary.map((day, index) => (
-          <CarouselItem key={index} className="">
+          <CarouselItem key={index}>
             <Card className="bg-[rgba(255,255,255,0.05)] border border-white/10 rounded-lg flex flex-col justify-center items-center h-full">
-              <CardContent className="p-6 text-white space-y-6 flex flex-col justify-center items-center" >
-                <h2 className="text-2xl font-bold">{day.title}</h2>
+              <CardContent className="p-6 text-white space-y-6 flex flex-col justify-center items-center w-full">
+                
+                {/* Title and Buttons Row */}
+                <div className="flex items-center justify-between w-full">
+                  <CarouselPrevious className="static relative top-0 left-0" />
+                  <h2 className="text-2xl font-bold text-center flex-1"> {day.title} </h2>
+                  <CarouselNext className="static relative top-0 right-0" />
+                </div>
+
                 <TimeLine segments={day.segments} />
+                
                 <TextDisplay
                   title="Additional Information"
                   content="The average temperature during your trip is expected to be 22°C with light showers on Day 2."
@@ -52,10 +60,9 @@ export function CarouselDays() {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
     </Carousel>
   );
 }
+
 
 
