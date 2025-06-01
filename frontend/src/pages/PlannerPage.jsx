@@ -1,22 +1,34 @@
 import React, { useState, useEffect } from 'react'
+import { 
+  BrowserRouter as Router, 
+  Routes, 
+  Route, 
+  useNavigate,  // Import useNavigate hook
+  useLocation   // Import useLocation hook (for receiving data)
+} from 'react-router-dom'
 import NavBar from '../components/navBar'
 import CustomDatePicker from '../components/datePicker'
 import { MapPinIcon, CalendarIcon, SearchIcon, HeartIcon, DollarSignIcon, UsersIcon, AlertCircleIcon } from "lucide-react"
 import { differenceInDays } from 'date-fns'
 
 const PlannerPage = () => {
+  const navigate = useNavigate();
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
   const [location, setLocation] = useState('')
   const [interests, setInterests] = useState('')
   const [customInterest, setCustomInterest] = useState('')
   const [tripDays, setTripDays] = useState(0)
-  const [budget, setBudget] = useState(50000)  // Default to ₹50,000
+  const [budget, setBudget] = useState(5000)  
   const [tripType, setTripType] = useState('individual')
   const [peopleCount, setPeopleCount] = useState(1)
   const [dateError, setDateError] = useState('')
+  const [locationError, setLocationError] = useState('');
+  const [datesError, setDatesError] = useState('');
+  const [interestError, setInterestError] = useState('');
 
-  // Format number with commas for Indian numbering system (e.g., 1,00,000)
+
+  
   const formatIndianRupees = (amount) => {
     return amount.toLocaleString('en-IN')
   }
@@ -58,7 +70,50 @@ const PlannerPage = () => {
   const popularInterests = [
     "Beaches", "Mountains", "Historical Sites", "Museums", 
     "Food Tours", "Adventure Sports", "Wildlife", "Shopping"
-  ]
+  ];
+
+  //
+  const handlePlanIternary = () => {
+  let valid = true;
+
+  if (!location.trim()) {
+    setLocationError("Please enter a destination.");
+    valid = false;
+  } else {
+    setLocationError('');
+  }
+
+  if (!startDate || !endDate || tripDays <= 0) {
+    setDatesError("Please select a valid start and end date.");
+    valid = false;
+  } else {
+    setDatesError('');
+  }
+
+  if (!interests.trim()) {
+    setInterestError("Please select or add at least one interest.");
+    valid = false;
+  } else {
+    setInterestError('');
+  }
+
+  if (!valid) return;
+
+  const tripData = {
+    location,
+    startDate,
+    endDate,
+    tripDays,
+    budget,
+    tripType,
+    peopleCount,
+    interests: interests.split(',').map(i => i.trim())
+  };
+
+  navigate('/iternary-result', { state: { tripDetails: tripData } });
+};
+
+ 
 
   return (
     <div className='min-h-screen w-full bg-[#0A1429]'>
@@ -126,6 +181,12 @@ const PlannerPage = () => {
               <MapPinIcon className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
             </div>
           </div>
+          {locationError && (
+            <div className="mt-3 text-red-400 text-sm flex items-center">
+              <AlertCircleIcon className="h-4 w-4 mr-1" />
+              {locationError}
+            </div>
+          )}
 
           <div className="mb-6">
             <label className="block text-white text-lg font-medium mb-2">Who's traveling?</label>
@@ -194,6 +255,13 @@ const PlannerPage = () => {
               </div>
             )}
           </div>
+
+          {!tripType && formError && (
+            <div className="mt-3 text-red-400 text-sm flex items-center">
+              <AlertCircleIcon className="h-4 w-4 mr-1" />
+              {formError}
+            </div>
+          )}
           
           
           {/* Date Range Pickers */}
@@ -211,13 +279,14 @@ const PlannerPage = () => {
             </div>
             
             {/* Date Error Message */}
-            {dateError && (
+            {datesError && (
               <div className="mt-2 flex items-center text-red-400">
                 <AlertCircleIcon className="h-4 w-4 mr-1" />
-                <span className="text-sm">{dateError}</span>
+                <span className="text-sm">{datesError}</span>
               </div>
             )}
           </div>
+
 
           {/* Budget Selector - Updated for Indian Rupees */}
           <div className="mb-6">
@@ -292,7 +361,13 @@ const PlannerPage = () => {
                 </div>
               </div>
             )}
-            
+            {interestError && (
+              <div className="mt-3 text-red-400 text-sm flex items-center">
+                <AlertCircleIcon className="h-4 w-4 mr-1" />
+                {interestError}
+              </div>
+            )}
+                        
             {/* Popular Interests Tags */}
             <div className="mt-3">
               <p className="text-white text-sm mb-1">Popular interests:</p>
@@ -312,14 +387,23 @@ const PlannerPage = () => {
           
           {/* Search Button */}
           <button 
+          onClick={handlePlanIternary}
             className={`w-full ${
               dateError ? 'bg-gray-600 cursor-not-allowed' : 'bg-[#0A65B3] hover:bg-blue-700 cursor-pointer'
             } text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2`}
             disabled={!!dateError}
           >
             <SearchIcon className="h-5 w-5" />
-            Find Perfect Activities
+            Plan Perfect Iternary
+            
           </button>
+
+          {/* {formError && (
+          <div className="mt-3 text-red-400 text-sm flex items-center">
+            <AlertCircleIcon className="h-4 w-4 mr-1" />
+            {formError}
+          </div>
+          )} */}
         </div>
       </div>
     </div>

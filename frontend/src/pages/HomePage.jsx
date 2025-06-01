@@ -24,7 +24,7 @@ const HomePage = () => {
         
         <button 
           onClick={handleStartPlanning}
-          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg text-xl transition-colors duration-300"
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg text-xl transition-colors duration-300 cursor-pointer"
         >
           Start Planning
         </button>
