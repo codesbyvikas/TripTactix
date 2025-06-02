@@ -19,14 +19,24 @@ const IternaryDisplayPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [tripDetails, setTripDetails] = useState(null);
+  const [iternaryResult, setItineraryResult] = useState(null);
 
   useEffect(() => {
-    if (location.state && location.state.tripDetails) {
-      setTripDetails(location.state.tripDetails);
+  if (location.state) {
+    const { tripDetails, iternaryResult } = location.state;
+
+    if (tripDetails && iternaryResult) {
+      setTripDetails(tripDetails);
+      setItineraryResult(iternaryResult); 
     } else {
-      navigate('/planner');
+      navigate('/planner'); 
     }
-  }, [location.state, navigate]);
+  } else {
+    navigate('/planner'); 
+  }
+}, [location.state, navigate]);
+
+  
 
   const formatIndianRupees = (amount) =>
     amount.toLocaleString('en-IN', { style: 'currency', currency: 'INR' }).replace("\u20B9", "");
@@ -87,7 +97,7 @@ const IternaryDisplayPage = () => {
         </div>
       </div>
 
-      <CarouselDays />
+      <CarouselDays iternaryResult={iternaryResult} />
     </div>
   );
 };

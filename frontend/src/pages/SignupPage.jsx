@@ -22,12 +22,13 @@ const SignupPage = () => {
         } else {
           // Success - handle navigation or show success message
           console.log("Signup success:", result.data);
+          navigate("/login")
           // e.g. navigate to login page or dashboard
         }
       };
 
     return (
-        <div className='w-full h-screen flex'>
+        <div className='w-full h-full flex'>
             {/* Left half */}
             <div className='w-1/2 h-full flex flex-col bg-[#0A1429] items-center justify-center'>
                 <img src={logo} alt="Logo" className="max-h-100 w-auto" />

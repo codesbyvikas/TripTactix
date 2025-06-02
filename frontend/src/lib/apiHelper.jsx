@@ -68,7 +68,7 @@ export const apiHelper = {
 
       return { data: response.data };
     } catch (error) {
-      console.error("Login API error:", error);
+      console.error("Planner API error:", error);
       return { error: error.response?.data?.error || error.message || "Network error" };
     }
 

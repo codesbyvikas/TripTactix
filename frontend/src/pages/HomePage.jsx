@@ -10,7 +10,8 @@ const HomePage = () => {
   }
 
   return (
-    <div className=" h-screen w-full bg-[#0A1429] flex flex-col items-center justify-start">
+    <div className='h-screen'>
+    <div className=" h-full w-full bg-[#0A1429] flex flex-col items-center justify-start">
       <div className="max-w-4xl flex flex-col items-center justify-center p-6 text-center">
         <img className="h-50 mb-8" src={logo} alt="TripTactix Logo" />
         
@@ -29,6 +30,7 @@ const HomePage = () => {
           Start Planning
         </button>
       </div>
+    </div>
     </div>
   )
 }

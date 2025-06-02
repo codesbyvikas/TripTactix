@@ -115,14 +115,19 @@ const PlannerPage = () => {
 
     try {
       // setError('');
-      const result = await apiHelper.planIternary({prompt})
+      const iternaryResult = await apiHelper.planIternary({prompt})
 
-      if (result.error) {
+      if (iternaryResult.error) {
         // setError(result.error);
       } else {
-        console.log('Plan success:', result.data);
+        console.log('Plan success:', iternaryResult.data);
         // Navigate to dashboard or home
-        navigate('/iternary-result', { state: { tripDetails: tripData } });
+        navigate('/itinerary-result', {
+          state: {
+            tripDetails: tripData,
+            iternaryResult: iternaryResult.data
+          }
+        })
       }
     } catch (err) {
       console.error('Login error:', err);

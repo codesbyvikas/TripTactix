@@ -34,11 +34,11 @@ const itinerary = [
   // Add more days as needed
 ];
 
-export function CarouselDays() {
+export function CarouselDays({ iternaryResult }) {
   return (
     <Carousel className="w-full border border-blue-500 bg-[#0A1429] rounded-lg shadow-lg">
       <CarouselContent>
-        {itinerary.map((day, index) => (
+        {iternaryResult.map((day, index) => (
           <CarouselItem key={index}>
             <Card className="bg-[rgba(255,255,255,0.05)] border border-white/10 rounded-lg flex flex-col justify-center items-center h-full">
               <CardContent className="p-6 text-white space-y-6 flex flex-col justify-center items-center w-full">
