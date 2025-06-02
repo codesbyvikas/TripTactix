@@ -27,7 +27,8 @@ const itinerary = [
       { title: "Morning", description: "Sunrise yoga and healthy breakfast." },
       { title: "Afternoon", description: "Scuba diving adventure." },
       { title: "Evening", description: "Chill at beach shack with live music." },
-      { title: "Night", description: "Walk along the moonlit shoreline." }
+      { title: "Night", description: "Walk along the moonlit shoreline." },
+      { title: "Additional Tip", description: "Days may be warm"}
     ]
   }
   // Add more days as needed
@@ -45,6 +46,7 @@ export function CarouselDays() {
                 {/* Title and Buttons Row */}
                 <div className="flex items-center justify-between w-full">
                   <CarouselPrevious className="static relative top-0 left-0" />
+                  
                   <h2 className="text-2xl font-bold text-center flex-1"> {day.title} </h2>
                   <CarouselNext className="static relative top-0 right-0" />
                 </div>

@@ -10,6 +10,7 @@ import NavBar from '../components/navBar'
 import CustomDatePicker from '../components/datePicker'
 import { MapPinIcon, CalendarIcon, SearchIcon, HeartIcon, DollarSignIcon, UsersIcon, AlertCircleIcon } from "lucide-react"
 import { differenceInDays } from 'date-fns'
+import { apiHelper } from '@/lib/apiHelper'
 
 const PlannerPage = () => {
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ const PlannerPage = () => {
   ];
 
   //
-  const handlePlanIternary = () => {
+  const handlePlanIternary = async () =>  {
   let valid = true;
 
   if (!location.trim()) {
@@ -110,7 +111,64 @@ const PlannerPage = () => {
     interests: interests.split(',').map(i => i.trim())
   };
 
-  navigate('/iternary-result', { state: { tripDetails: tripData } });
+    const prompt = handlePrompt(tripData);
+
+    try {
+      // setError('');
+      const result = await apiHelper.planIternary({prompt})
+
+      if (result.error) {
+        // setError(result.error);
+      } else {
+        console.log('Plan success:', result.data);
+        // Navigate to dashboard or home
+        navigate('/iternary-result', { state: { tripDetails: tripData } });
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+      // setError('Something went wrong. Please try again.');
+    }
+
+
+  
+};
+
+  const handlePrompt = (tripData) => {
+  const { tripDays, startDate, endDate, location, tripType, peopleCount, budget, interests } = tripData;
+
+  // Convert tripType to descriptive phrase
+  let peoplePhrase = '';
+  if (tripType === 'individual') {
+    peoplePhrase = 'an individual traveler';
+  } else if (tripType === 'family') {
+    peoplePhrase = `a family of ${peopleCount} people`;
+  } else if (tripType === 'group') {
+    peoplePhrase = `a group of ${peopleCount} people`;
+  }
+
+  // Format interests as a readable string, e.g. "skiing, sightseeing, paragliding"
+  const interestList = interests.join(', ');
+
+  // Format budget with commas (optional)
+  const formattedBudget = budget.toLocaleString('en-IN');
+
+  // Format dates as DD/MM/YYYY (optional, if needed)
+  const formatDate = (dateStr) => {
+    const d = new Date(dateStr);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  const formattedStartDate = formatDate(startDate);
+  const formattedEndDate = formatDate(endDate);
+
+  // Construct the prompt string
+  const prompt = `Plan an itinerary for ${tripDays + 1} days starting from ${formattedStartDate} to ${formattedEndDate} to ${location} with ${peoplePhrase} within a budget of ₹${formattedBudget}. Include activities like ${interestList}. Also give an additional travel tip or detail. \n\nGive the response in the following JSON format:\n\nconst itinerary = [\n  {\n    title: "Day 1",\n    segments: [\n      { title: "Morning", description: "..." },\n      { title: "Afternoon", description: "..." },\n      { title: "Evening", description: "..." },\n      { title: "Night", description: "..." }\n  { title: "Additional_Tip", description: "..." }\n    ]\n  },\n  // Continue for Day 2 to Day ${tripDays + 1}\n];`;
+
+  console.log(prompt); // You can check the prompt here or store/send it
+  return prompt;
 };
 
  

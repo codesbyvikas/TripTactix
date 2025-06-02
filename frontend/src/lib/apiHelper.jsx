@@ -48,5 +48,29 @@ export const apiHelper = {
       console.error("Login API error:", error);
       return { error: error.response?.data?.error || error.message || "Network error" };
     }
+
+  },
+
+  planIternary: async ({ prompt }) => {
+    try {
+      const response = await axios.post(`${API_URL}/plan/generate-itinerary`, {
+        prompt
+      }, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+
+      if (![200, 201].includes(response.status) || response.data.error) {
+        return { error: response.data.error || "Failed to get iternary" };
+      }
+
+      return { data: response.data };
+    } catch (error) {
+      console.error("Login API error:", error);
+      return { error: error.response?.data?.error || error.message || "Network error" };
+    }
+
   },
 };
