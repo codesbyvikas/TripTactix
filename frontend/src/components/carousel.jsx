@@ -34,6 +34,10 @@ const itinerary = [
   // Add more days as needed
 ];
 
+  // handleGetIternaryResult=()=>{
+
+  // }
+
 export function CarouselDays({ iternaryResult }) {
   return (
     <Carousel className="w-full border border-blue-500 bg-[#0A1429] rounded-lg shadow-lg">

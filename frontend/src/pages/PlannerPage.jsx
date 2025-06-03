@@ -11,6 +11,7 @@ import CustomDatePicker from '../components/datePicker'
 import { MapPinIcon, CalendarIcon, SearchIcon, HeartIcon, DollarSignIcon, UsersIcon, AlertCircleIcon } from "lucide-react"
 import { differenceInDays } from 'date-fns'
 import { apiHelper } from '@/lib/apiHelper'
+import CustomLoader from '@/components/loader'
 
 const PlannerPage = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const PlannerPage = () => {
   const [locationError, setLocationError] = useState('');
   const [datesError, setDatesError] = useState('');
   const [interestError, setInterestError] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
 
   
@@ -36,6 +38,7 @@ const PlannerPage = () => {
 
   // Calculate trip duration whenever dates change
   useEffect(() => {
+    setIsLoading(true);
     if (startDate && endDate) {
       const days = differenceInDays(new Date(endDate), new Date(startDate))
       
@@ -50,6 +53,7 @@ const PlannerPage = () => {
       setDateError('')
       setTripDays(0)
     }
+    setIsLoading(false);
   }, [startDate, endDate])
 
   // Handle adding custom interests
@@ -114,12 +118,14 @@ const PlannerPage = () => {
     const prompt = handlePrompt(tripData);
 
     try {
+      setIsLoading(true);
       // setError('');
       const iternaryResult = await apiHelper.planIternary({prompt})
 
       if (iternaryResult.error) {
         // setError(result.error);
       } else {
+        setIsLoading(false);
         console.log('Plan success:', iternaryResult.data);
         // Navigate to dashboard or home
         navigate('/itinerary-result', {
@@ -176,9 +182,19 @@ const PlannerPage = () => {
   return prompt;
 };
 
- 
 
+
+  
+if(isLoading){
   return (
+     <div className='min-h-screen w-full bg-[#0A1429] flex flex-col items-center justify-center'>
+      <div className="w-full flex flex-col items-center justify-center p-6"></div>
+      <CustomLoader/>
+      </div>
+  );
+          }
+  return (
+    
     <div className='min-h-screen w-full bg-[#0A1429]'>
       <div className="w-full flex flex-col items-center justify-center p-6">
         <h2 className="text-white text-2xl font-semibold mb-6">
@@ -471,6 +487,7 @@ const PlannerPage = () => {
       </div>
     </div>
   )
+  
 }
 
 export default PlannerPage
