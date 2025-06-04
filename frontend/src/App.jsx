@@ -5,7 +5,7 @@ import LoginPage from './pages/LoginPage';
 import PlannerPage from './pages/PlannerPage';
 import HomePage from './pages/HomePage';
 import Layout from './components/Layout';
-import IternaryDisplayPage from './pages/IternaryDisplayPage';
+import ItineraryDisplayPage from './pages/ItineraryDisplayPage';
 
 function App() {
   const location = useLocation();
@@ -38,20 +38,20 @@ function App() {
         }
       />
       <Route
-        path="/iternary-result"
+        path="/itinerary-result"
         element={
           !isAuthPage ? (
             <Layout>
-              <IternaryDisplayPage />
+              <ItineraryDisplayPage />
             </Layout>
           ) : (
-            <IternaryDisplayPage />
+            <ItineraryDisplayPage />
           )
         }
       />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/login" element={<LoginPage />} />
-      {/* <Route path="/iternary-result" element={<IternaryDisplayPage />} /> */}
+      {/* <Route path="/itinerary-result" element={<ItineraryDisplayPage />} /> */}
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

@@ -80,7 +80,7 @@ export const apiHelper = {
   },
 
 
-  planIternary: async ({ prompt }) => {
+  planItinerary: async ({ prompt }) => {
     try {
       const response = await axios.post(`${API_URL}/plan/generate-itinerary`, {
         prompt
@@ -92,7 +92,7 @@ export const apiHelper = {
       });
 
       if (![200, 201].includes(response.status) || response.data.error) {
-        return { error: response.data.error || "Failed to get iternary" };
+        return { error: response.data.error || "Failed to get itinerary" };
       }
 
       return { data: response.data };

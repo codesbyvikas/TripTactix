@@ -15,19 +15,19 @@ import {
   BookIcon
 } from 'lucide-react';
 
-const IternaryDisplayPage = () => {
+const ItineraryDisplayPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [tripDetails, setTripDetails] = useState(null);
-  const [iternaryResult, setItineraryResult] = useState(null);
+  const [itineraryResult, setItineraryResult] = useState(null);
 
   useEffect(() => {
   if (location.state) {
-    const { tripDetails, iternaryResult } = location.state;
+    const { tripDetails, itineraryResult } = location.state;
 
-    if (tripDetails && iternaryResult) {
+    if (tripDetails && itineraryResult) {
       setTripDetails(tripDetails);
-      setItineraryResult(iternaryResult); 
+      setItineraryResult(itineraryResult); 
     } else {
       navigate('/planner'); 
     }
@@ -97,9 +97,9 @@ const IternaryDisplayPage = () => {
         </div>
       </div>
 
-      <CarouselDays iternaryResult={iternaryResult} />
+      <CarouselDays itineraryResult={itineraryResult} />
     </div>
   );
 };
 
-export default IternaryDisplayPage;
+export default ItineraryDisplayPage;

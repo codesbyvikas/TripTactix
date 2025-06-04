@@ -78,7 +78,7 @@ const PlannerPage = () => {
   ];
 
   //
-  const handlePlanIternary = async () =>  {
+  const handlePlanItinerary = async () =>  {
   let valid = true;
 
   if (!location.trim()) {
@@ -117,34 +117,56 @@ const PlannerPage = () => {
 
     const prompt = handlePrompt(tripData);
 
-    try {
-      setIsLoading(true);
-      // setError('');
-      const iternaryResult = await apiHelper.planIternary({prompt})
+  try {
+    setIsLoading(true);
+    const apiResponse = await apiHelper.planItinerary({ prompt });
 
-      if (iternaryResult.error) {
-        // setError(result.error);
-      } else {
+    if (apiResponse.error) {
+        console.error('API Error:', apiResponse.error);
         setIsLoading(false);
-        console.log('Plan success:', iternaryResult.data);
-        // Navigate to dashboard or home
-        navigate('/itinerary-result', {
-          state: {
-            tripDetails: tripData,
-            iternaryResult: iternaryResult.data
-          }
-        })
-      }
-    } catch (err) {
-      console.error('Login error:', err);
-      // setError('Something went wrong. Please try again.');
+    } else if (apiResponse.data && typeof apiResponse.data.text === 'string') {
+        try {
+            const rawItineraryString = apiResponse.data.text;
+
+            // Simplified cleaning: Only remove Markdown fences.
+            // If the API generates 'const itinerary = ' or unquoted keys,
+            // the error implies the prompt wasn't followed perfectly.
+            const cleanedJsonString = rawItineraryString
+                .replace(/^```json\n/, '') // Remove leading ```json\n
+                .replace(/;?\n```\n?$/, ''); // Remove trailing ;?\n```\n (optional semicolon, optional final newline)
+
+            // Parse the cleaned string into a JavaScript array
+            const parsedItineraryArray = JSON.parse(cleanedJsonString);
+
+            setIsLoading(false);
+            console.log('Plan success (parsed data):', parsedItineraryArray);
+            console.log(typeof parsedItineraryArray);
+            console.log(Array.isArray(parsedItineraryArray));
+
+            navigate('/itinerary-result', {
+                state: {
+                    tripDetails: tripData,
+                    itineraryResult: parsedItineraryArray // Pass the cleaned and parsed array
+                }
+            });
+        } catch (parseError) {
+            console.error('Error parsing itinerary string (check API output format!):', parseError);
+            console.error('Raw string that caused parse error:', apiResponse.data.text);
+            setIsLoading(false);
+        }
+    } else {
+        console.warn('API response data structure is unexpected:', apiResponse);
+        setIsLoading(false);
     }
-
-
-  
+} catch (err) {
+    console.error('Network or unhandled error during API call:', err);
+    setIsLoading(false);
+}
 };
 
-  const handlePrompt = (tripData) => {
+  // In PlannerPage.jsx
+
+const handlePrompt = (tripData) => {
   const { tripDays, startDate, endDate, location, tripType, peopleCount, budget, interests } = tripData;
 
   // Convert tripType to descriptive phrase
@@ -157,28 +179,61 @@ const PlannerPage = () => {
     peoplePhrase = `a group of ${peopleCount} people`;
   }
 
-  // Format interests as a readable string, e.g. "skiing, sightseeing, paragliding"
+  // Format interests as a readable string
   const interestList = interests.join(', ');
 
-  // Format budget with commas (optional)
+  // Format budget with commas
   const formattedBudget = budget.toLocaleString('en-IN');
 
-  // Format dates as DD/MM/YYYY (optional, if needed)
+  // Format dates as YYYY-MM-DD for consistency (or DD/MM/YYYY if you strictly need that)
   const formatDate = (dateStr) => {
     const d = new Date(dateStr);
-    const day = String(d.getDate()).padStart(2, '0');
-    const month = String(d.getMonth() + 1).padStart(2, '0');
     const year = d.getFullYear();
-    return `${day}/${month}/${year}`;
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`; // Or `${day}/${month}/${year}` if you prefer that for prompt display
   };
 
   const formattedStartDate = formatDate(startDate);
   const formattedEndDate = formatDate(endDate);
 
   // Construct the prompt string
-  const prompt = `Plan an itinerary for ${tripDays + 1} days starting from ${formattedStartDate} to ${formattedEndDate} to ${location} with ${peoplePhrase} within a budget of ₹${formattedBudget}. Include activities like ${interestList}. Also give an additional travel tip or detail. \n\nGive the response in the following JSON format:\n\nconst itinerary = [\n  {\n    title: "Day 1",\n    segments: [\n      { title: "Morning", description: "..." },\n      { title: "Afternoon", description: "..." },\n      { title: "Evening", description: "..." },\n      { title: "Night", description: "..." }\n  { title: "Additional_Tip", description: "..." }\n    ]\n  },\n  // Continue for Day 2 to Day ${tripDays + 1}\n];`;
+  // IMPORTANT: Ensure all JSON keys in the example are double-quoted.
+  // Also, adjust the Additional_Tip structure in the example to match what the API provides.
+  // Based on your latest error, Additional_Tip has a direct "description" property, not "segments".
+  const prompt = `Plan an itinerary for ${tripDays + 1} days starting from ${formattedStartDate} to ${formattedEndDate} to ${location} with ${peoplePhrase} within a budget of ₹${formattedBudget}. Include activities like ${interestList}. Also give an additional travel tip or detail in a separate object.
 
-  console.log(prompt); // You can check the prompt here or store/send it
+Provide the response as a **strict JSON array**. Do NOT include 'const itinerary = ' or any other JavaScript code. The entire response should be a JSON array. Each day should be an object with a "title" and a "segments" array. The "Additional_Tip" should be a separate object in the array with a "title" and a "description" property.
+
+Here is the exact JSON format I require:
+
+\`\`\`json
+[
+  {
+    "title": "Day 1 (YYYY/MM/DD)",
+    "segments": [
+      { "title": "Morning", "description": "..." },
+      { "title": "Afternoon", "description": "..." },
+      { "title": "Evening", "description": "..." },
+      { "title": "Night", "description": "..." }
+    ]
+  },
+  {
+    "title": "Day 2 (YYYY/MM/DD)",
+    "segments": [
+      { "title": "Morning", "description": "..." },
+      { "title": "Afternoon", "description": "..." }
+    ]
+  },
+  {
+    "title": "Additional_Tip",
+    "description": "..."
+  }
+]
+\`\`\`
+`;
+
+  console.log("Generated Prompt:", prompt);
   return prompt;
 };
 
@@ -466,14 +521,14 @@ if(isLoading){
           
           {/* Search Button */}
           <button 
-          onClick={handlePlanIternary}
+          onClick={handlePlanItinerary}
             className={`w-full ${
               dateError ? 'bg-gray-600 cursor-not-allowed' : 'bg-[#0A65B3] hover:bg-blue-700 cursor-pointer'
             } text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2`}
             disabled={!!dateError}
           >
             <SearchIcon className="h-5 w-5" />
-            Plan Perfect Iternary
+            Plan Perfect Itinerary
             
           </button>
 
