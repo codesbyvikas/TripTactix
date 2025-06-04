@@ -17,4 +17,6 @@ function checkForAuthCookie(cookieName){
     };
 }
 
+
+
 module.exports = checkForAuthCookie;
