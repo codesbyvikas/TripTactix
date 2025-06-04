@@ -51,6 +51,35 @@ export const apiHelper = {
 
   },
 
+    getProfile: async () => {
+    try {
+      const response = await axios.get(`${API_URL}/user/profile`, {
+        withCredentials: true,
+      });
+
+      if (response.status !== 200 || response.data.error) {
+        return { error: response.data.error || "Failed to fetch profile" };
+      }
+
+      return { data: response.data.user };
+    } catch (error) {
+      console.error("Profile API error:", error);
+      return { error: error.response?.data?.error || error.message || "Network error" };
+    }
+  },
+
+  logout: async () => {
+  try {
+    const response = await axios.get(`${API_URL}/user/logout`, {
+      withCredentials: true,
+    });
+    return { data: response.data };
+  } catch (error) {
+    return { error: error.response?.data?.error || "Logout failed" };
+  }
+  },
+
+
   planIternary: async ({ prompt }) => {
     try {
       const response = await axios.post(`${API_URL}/plan/generate-itinerary`, {
