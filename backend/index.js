@@ -23,7 +23,7 @@ app.use('/user', userRoutes);
 app.use('/plan', plannerRoutes)
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/TripTactix")
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("Database connected");
     app.listen(PORT, () => {
