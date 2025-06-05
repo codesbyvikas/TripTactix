@@ -40,6 +40,7 @@ router.get("/logout", (req, res) => {
   res.clearCookie("token").redirect("/");
 });
 
+//get user info
 router.get("/profile", async (req, res) => {
   if (!req.user) {
     return res.status(401).json({ error: "Unauthorized" });
