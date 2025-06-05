@@ -24,9 +24,14 @@ router.post("/login", async (req, res) => {
     const token = await User.matchPasswordAndGenerateToken(email, password);
 
     res
-      .status(200)
-      .cookie("token", token)
-      .json({ message: "Login successful", token });
+    .status(200)
+    .cookie("token", token, {
+      httpOnly: true,
+      secure: false,       
+      sameSite: "lax",      
+      maxAge: 24 * 60 * 60 * 1000,
+    })
+  .json({ message: "Login successful" });
   } catch (error) {
     console.error("Login error:", error);
     res.status(401).json({ error: "Invalid email or password" });
@@ -37,7 +42,12 @@ router.post("/login", async (req, res) => {
 
 // Logout route
 router.get("/logout", (req, res) => {
-  res.clearCookie("token").redirect("/");
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax"
+  });
+  res.status(200).json({ message: "Logged out" });
 });
 
 //get user info
