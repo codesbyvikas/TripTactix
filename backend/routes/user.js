@@ -22,7 +22,7 @@ router.post("/login", async (req, res) => {
 
   try {
     const token = await User.matchPasswordAndGenerateToken(email, password);
-    console.log(token);
+  //  console.log(token);
     res
     .status(200)
     .cookie("token", token, {

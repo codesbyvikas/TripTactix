@@ -50,6 +50,7 @@ userSchema.static("matchPasswordAndGenerateToken", async function (email, passwo
   }
 
   const token = createTokenForUser(user);
+  console.log(token);
   return token;
 });
 
