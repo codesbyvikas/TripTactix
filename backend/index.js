@@ -25,11 +25,17 @@ app.use('/plan', plannerRoutes)
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
-    console.log("Database connected");
+    console.log("✅ Database connected");
+
+    // Log the name of the connected database
+    console.log("📦 Using database:", mongoose.connection.name);
+
     app.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}`);
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
     });
   })
   .catch((err) => {
-    console.error("MongoDB connection error:", err);
+    console.error("❌ MongoDB connection error:", err);
   });
+
+ 
