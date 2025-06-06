@@ -30,7 +30,7 @@ router.post("/login", async (req, res) => {
 
   try {
     const token = await User.matchPasswordAndGenerateToken(email, password);
-    console.log("Token generated successfully"); // For debugging
+    console.log("Token generated successfully"); 
     res
       .status(200)
       .cookie("token", token, {
