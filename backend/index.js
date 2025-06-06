@@ -16,17 +16,16 @@ app.use(cookieParser());
 
 app.use(cors({
   origin: [
-    "http://localhost:5173",    // For local development
-    "http://localhost:3000",    // Alternative local port
-    "https://your-actual-frontend-domain.com" // Replace with your actual production domain when you deploy frontend
+    "http://localhost:5173",    
+    "http://localhost:3000",  
+    "https://trip-tactix-two.vercel.app/" 
   ], 
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Remove the global auth middleware
-// app.use(checkForAuthCookie("token")); // ❌ This was the problem!
+// app.use(checkForAuthCookie("token"));
 
 // Apply routes WITHOUT global auth middleware
 app.use('/user', userRoutes);
@@ -39,7 +38,6 @@ mongoose
   .then(() => {
     console.log("✅ Database connected");
 
-    // Log the name of the connected database
     console.log("📦 Using database:", mongoose.connection.name);
 
     app.listen(PORT, () => {
