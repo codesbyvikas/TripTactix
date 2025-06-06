@@ -6,7 +6,6 @@ import {
   useNavigate,  // Import useNavigate hook
   useLocation   // Import useLocation hook (for receiving data)
 } from 'react-router-dom'
-import NavBar from '../components/navBar'
 import CustomDatePicker from '../components/datePicker'
 import { MapPinIcon, CalendarIcon, SearchIcon, HeartIcon, DollarSignIcon, UsersIcon, AlertCircleIcon } from "lucide-react"
 import { differenceInDays } from 'date-fns'
