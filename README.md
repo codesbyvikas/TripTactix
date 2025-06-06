@@ -29,39 +29,26 @@ TripTactix is a AI powered full-stack itinerary planner web application built us
 
 Follow these steps to run TripTactix locally on your machine.
 
-### 1. Clone the repository
+# 1. Clone the repository and navigate into the project directory
+git clone https://github.com/codesbyvikas/TripTactix.git
+cd TripTactix
 
-```bash
-git clone https://github.com/yourusername/triptactix.git
-cd triptactix
-
-###2. Set up the Backend
+# 2. Set up the Backend
 cd backend
 npm install
 
-#Create a .env file inside the backend/ folder:
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
+# Create a .env file inside the backend/ folder with your MongoDB connection string
+# Replace 'your_mongodb_connection_string' with your actual MongoDB Atlas URI
+# You can get one from MongoDB Atlas by creating a free cluster
+# Once the .env file is created, start the backend server
+echo "PORT=5000" > .env
+echo "MONGO_URI=your_mongodb_connection_string" >> .env
+npm start
 
-###Start the backend server:
-cd frontend
+# 3. Set up the Frontend (open a new terminal window for this)
+# Navigate back to the root 'TripTactix' directory, then into 'frontend'
+cd ../frontend
 npm install
 npm run dev
 
-##📁 Folder Structure
-triptactix/
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── App.jsx
-│   │   └── index.js
-│   └── public/
-├── backend/
-│   ├── controllers/
-│   ├── routes/
-│   ├── models/
-│   └── server.js
-├── .env
-└── README.md
 
