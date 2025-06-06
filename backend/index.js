@@ -15,10 +15,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? "your-frontend-production-url" 
-    : "http://localhost:5173", 
-  credentials: true
+  origin: [
+    "http://localhost:5173",    // For local development
+    "http://localhost:3000",    // Alternative local port
+    "https://your-actual-frontend-domain.com" // Replace with your actual production domain when you deploy frontend
+  ], 
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Remove the global auth middleware
