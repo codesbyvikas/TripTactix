@@ -16,10 +16,10 @@ app.use(cookieParser());
 
 app.use(cors({
   origin: [
-    "http://localhost:5173",    
-    "http://localhost:3000",  
-    "https://trip-tactix-two.vercel.app/" 
-  ], 
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "https://trip-tactix-two.vercel.app"
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
