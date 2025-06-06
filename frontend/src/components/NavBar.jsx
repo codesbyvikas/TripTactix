@@ -1,10 +1,37 @@
 'use client';
 import logo from '../assets/logo.png';
 import { useState, useEffect, Fragment } from 'react';
-import { Popover, PopoverButton, PopoverGroup, PopoverPanel, Menu, MenuButton, MenuItems, MenuItem, Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
-import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid';
-import { ArrowPathIcon, Bars3Icon, ChartPieIcon, CursorArrowRaysIcon, FingerPrintIcon, SquaresPlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import {
+  Popover,
+  PopoverButton,
+  PopoverGroup,
+  PopoverPanel,
+  Menu,
+  MenuButton,
+  MenuItems,
+  MenuItem,
+  Dialog,
+  DialogPanel,
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel
+} from '@headlessui/react';
+import {
+  ChevronDownIcon,
+  PhoneIcon,
+  PlayCircleIcon
+} from '@heroicons/react/20/solid';
+import {
+  ArrowPathIcon,
+  Bars3Icon,
+  ChartPieIcon,
+  CursorArrowRaysIcon,
+  FingerPrintIcon,
+  SquaresPlusIcon,
+  XMarkIcon
+} from '@heroicons/react/24/outline';
 import { apiHelper } from '../lib/apiHelper';
+import { useNavigate } from 'react-router-dom';
 
 const products = [
   { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
@@ -22,6 +49,7 @@ const callsToAction = [
 export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -109,9 +137,12 @@ export default function NavBar() {
               </MenuItems>
             </Menu>
           ) : (
-            <a href="/login" className="text-sm font-semibold text-white">
+            <button
+              onClick={() => navigate("/login")}
+              className="text-sm font-semibold text-white"
+            >
               Log in <span aria-hidden="true">&rarr;</span>
-            </a>
+            </button>
           )}
         </div>
       </nav>
@@ -169,12 +200,15 @@ export default function NavBar() {
                     Logout ({user.fullName})
                   </button>
                 ) : (
-                  <a
-                    href="/login"
-                    className="block rounded-lg px-3 py-2.5 text-base font-semibold text-white hover:bg-gray-700"
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      navigate("/login");
+                    }}
+                    className="block w-full text-left rounded-lg px-3 py-2.5 text-base font-semibold text-white hover:bg-gray-700"
                   >
                     Log in
-                  </a>
+                  </button>
                 )}
               </div>
             </div>
