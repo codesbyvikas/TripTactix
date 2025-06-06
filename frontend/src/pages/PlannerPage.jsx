@@ -6,12 +6,12 @@ import {
   useNavigate,  // Import useNavigate hook
   useLocation   // Import useLocation hook (for receiving data)
 } from 'react-router-dom'
-import NavBar from '../components/navBar'
-import CustomDatePicker from '../components/datePicker'
+import NavBar from '../components/NavBar'
+import CustomDatePicker from '../components/DatePicker'
 import { MapPinIcon, CalendarIcon, SearchIcon, HeartIcon, DollarSignIcon, UsersIcon, AlertCircleIcon } from "lucide-react"
 import { differenceInDays } from 'date-fns'
 import { apiHelper } from '@/lib/apiHelper'
-import CustomLoader from '@/components/loader'
+import CustomLoader from '@/components/Loader'
 
 const PlannerPage = () => {
   const navigate = useNavigate();

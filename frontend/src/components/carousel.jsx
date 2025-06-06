@@ -8,8 +8,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import TextDisplay from "./textDisplay";
-import TimeLine from "./timeLine";
+import TextDisplay from "./TextDisplay";
+import TimeLine from "./TimeLine";
 
 export function CarouselDays({ itineraryResult }) {
   if (!Array.isArray(itineraryResult)) {
