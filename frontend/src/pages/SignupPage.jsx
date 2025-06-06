@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { apiHelper } from '../lib/apiHelper';
 
-
 const SignupPage = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -28,18 +27,18 @@ const SignupPage = () => {
       };
 
     return (
-        <div className='w-full h-screen flex'>
-            {/* Left half */}
-            <div className='w-1/2 h-full flex flex-col bg-[#0A1429] items-center justify-center'>
-                <img src={logo} alt="Logo" className="max-h-100 w-auto" />
+        <div className='w-full min-h-screen flex flex-col md:flex-row'>
+            {/* Left half - Logo section */}
+            <div className='w-full md:w-1/2 h-32 md:h-screen flex flex-col bg-[#0A1429] items-center justify-center py-4 md:py-0'>
+                <img src={logo} alt="Logo" className="max-h-16 md:max-h-100 w-auto" />
             </div>
 
-            {/* Right half */}
-            <div className='w-1/2 h-full bg-[#0A65B3] flex flex-col p-20 justify-center'>
+            {/* Right half - Signup form */}
+            <div className='w-full md:w-1/2 min-h-screen md:h-screen bg-[#0A65B3] flex flex-col p-6 md:p-20 justify-center'>
                 <div className='w-full flex flex-col max-w-[450px] mx-auto'>
-                    <div className='w-full flex flex-col mb-10 text-white'>
-                        <h3 className='text-4xl font-bold mb-2'>Sign Up</h3>
-                        <p className='text-lg mb-4'>Welcome! Please enter your information below to begin.</p>
+                    <div className='w-full flex flex-col mb-6 md:mb-10 text-white'>
+                        <h3 className='text-2xl md:text-4xl font-bold mb-2'>Sign Up</h3>
+                        <p className='text-base md:text-lg mb-4'>Welcome! Please enter your information below to begin.</p>
                     </div>
 
                     <div className='w-full flex flex-col mb-6'>
@@ -71,19 +70,19 @@ const SignupPage = () => {
                     <div className='w-full flex flex-col mb-4'>
                         <button
                             onClick={handleSignup}
-                            className='w-full bg-transparent border border-white text-white my-2 font-semibold rounded-md p-4 text-center flex items-center justify-center cursor-pointer'>
+                            className='w-full bg-transparent border border-white text-white my-2 font-semibold rounded-md p-4 text-center flex items-center justify-center cursor-pointer hover:bg-white hover:text-[#0A65B3] transition-colors duration-200'>
                             Signup
                         </button>
                     </div>
 
                     <div className='w-full flex items-center justify-center relative py-4'>
                         <div className='w-full h-[1px] bg-gray-500'></div>
-                        <p className='text-lg absolute text-white bg-[#1a1a1a] px-2'>OR</p>
+                        <p className='text-lg absolute text-white bg-[#0A65B3] px-2'>OR</p>
                     </div>
                 </div>
 
-                <div className='w-full flex items-center justify-center mt-10'>
-                    <p className='text-sm font-normal text-white'>
+                <div className='w-full flex items-center justify-center mt-6 md:mt-10'>
+                    <p className='text-sm font-normal text-white text-center'>
                         Already have an account? <span className='font-semibold text-white cursor-pointer underline'><a href='/login'>Log In</a></span>
                     </p>
                 </div>
