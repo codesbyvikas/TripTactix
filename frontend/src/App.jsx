@@ -4,7 +4,7 @@ import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import PlannerPage from './pages/PlannerPage';
 import HomePage from './pages/HomePage';
-import Layout from './components/Layout';
+import Layout from './components/layout';
 import ItineraryDisplayPage from './pages/ItineraryDisplayPage';
 
 function App() {
