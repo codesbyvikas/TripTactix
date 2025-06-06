@@ -30,14 +30,14 @@ const LoginPage = () => {
   };
 
   return (
-    <div className='w-full h-screen flex'>
-      {/* Left half */}
-      <div className='w-1/2 h-full flex flex-col bg-[#0A1429] items-center justify-center'>
-        <img src={logo} alt='Logo' className='max-h-100 w-auto' />
-      </div>
-
-      {/* Right half */}
-      <div className='w-1/2 h-full bg-[#0A65B3] flex flex-col p-20 justify-center'>
+   <div className='w-full h-full flex'>
+               {/* Left half */}
+               <div className='w-1/2 h-screen flex flex-col bg-[#0A1429] items-center justify-center'>
+                   <img src={logo} alt="Logo" className="max-h-100 w-auto" />
+               </div>
+   
+               {/* Right half */}
+               <div className='w-1/2 h-screen bg-[#0A65B3] flex flex-col p-20 justify-center'>
         <div className='w-full flex flex-col max-w-[450px] mx-auto'>
           <div className='w-full flex flex-col mb-10 text-white'>
             <h3 className='text-4xl font-bold mb-2'>Login</h3>
