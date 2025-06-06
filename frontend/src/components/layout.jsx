@@ -1,7 +1,7 @@
 // components/Layout.jsx
 import React from 'react';
-import Navbar from './NavBar';
-import Footer from './Footer'
+import Navbar from './navBar';
+import Footer from '../components/footer'
 
 
 const Layout = ({ children }) => {
@@ -13,6 +13,5 @@ const Layout = ({ children }) => {
     </>
   );
 };
-
 
 export default Layout;

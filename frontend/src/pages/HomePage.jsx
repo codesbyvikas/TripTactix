@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import logo from '../assets/logo.png'
 import { apiHelper } from '../lib/apiHelper'
-import CustomLoader from '@/components/Loader'
+import CustomLoader from '@/components/loader'
 
 const HomePage = () => {
   const navigate = useNavigate()
