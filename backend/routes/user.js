@@ -1,8 +1,10 @@
 const { Router } = require("express");
 const User = require("../models/user");
+const checkForAuthCookie = require("../middlewares/auth");
 
 const router = Router();
 
+// Public routes (no auth required)
 // Signup route
 router.post("/signup", async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -18,27 +20,31 @@ router.post("/signup", async (req, res) => {
 
 // Login route (API)
 router.post("/login", async (req, res) => {
+  console.log("Login request body:", req.body); // For debugging
   const { email, password } = req.body;
+
+  // Check if email and password are provided
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password are required" });
+  }
 
   try {
     const token = await User.matchPasswordAndGenerateToken(email, password);
-  //  console.log(token);
+    console.log("Token generated successfully"); // For debugging
     res
-    .status(200)
-    .cookie("token", token, {
-      httpOnly: true,
-      secure: false,       
-      sameSite: "lax",      
-      maxAge: 24 * 60 * 60 * 1000,
-    })
-  .json({ message: "Login successful" });
+      .status(200)
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: false,       
+        sameSite: "lax",      
+        maxAge: 24 * 60 * 60 * 1000,
+      })
+      .json({ message: "Login successful" });
   } catch (error) {
     console.error("Login error:", error);
     res.status(401).json({ error: "Invalid email or password" });
   }
 });
-
-
 
 // Logout route
 router.get("/logout", (req, res) => {
@@ -50,12 +56,10 @@ router.get("/logout", (req, res) => {
   res.status(200).json({ message: "Logged out" });
 });
 
-//get user info
-router.get("/profile", async (req, res) => {
-  if (!req.user) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
-
+// Protected routes (auth required)
+// Apply auth middleware to the profile route specifically
+router.get("/profile", checkForAuthCookie("token"), async (req, res) => {
+  // req.user will be available here because of the middleware
   try {
     const user = await User.findById(req.user._id).select("-password"); // Don't return password
     if (!user) {
@@ -68,7 +72,5 @@ router.get("/profile", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
-
 
 module.exports = router;

@@ -18,9 +18,15 @@ app.use(cors({
   origin: "http://localhost:5173", 
   credentials: true
 }));
-app.use(checkForAuthCookie("token"));
+
+// Remove the global auth middleware
+// app.use(checkForAuthCookie("token")); // ❌ This was the problem!
+
+// Apply routes WITHOUT global auth middleware
 app.use('/user', userRoutes);
-app.use('/plan', plannerRoutes)
+
+// Apply auth middleware ONLY to protected routes
+app.use('/plan', checkForAuthCookie("token"), plannerRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -38,6 +44,6 @@ mongoose
     console.error("❌ MongoDB connection error:", err);
   });
 
- app.get("/health", (req, res) => {
+app.get("/health", (req, res) => {
   res.send("Backend is running!");
 });
