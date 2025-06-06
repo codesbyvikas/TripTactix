@@ -139,7 +139,7 @@ export default function NavBar() {
           ) : (
             <button
               onClick={() => navigate("/login")}
-              className="text-sm font-semibold text-white"
+              className="text-sm font-semibold text-white cursor-pointer"
             >
               Log in <span aria-hidden="true">&rarr;</span>
             </button>
