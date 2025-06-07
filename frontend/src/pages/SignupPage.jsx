@@ -87,7 +87,7 @@ const SignupPage = () => {
                 <button
                     onClick={() => {
                     // setMobileMenuOpen(false);
-                    navigate("/logingit");
+                    navigate("/login");
                     }}
                     className="text-sm font-semibold text-white hover:underline cursor-pointer"
                 >
