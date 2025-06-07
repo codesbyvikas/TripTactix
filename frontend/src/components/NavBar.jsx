@@ -87,34 +87,9 @@ export default function NavBar() {
           </button>
         </div>
 
-        <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-          <Popover className="relative">
-            <PopoverButton className="flex items-center gap-x-1 text-sm font-semibold text-white">
-              Product
-              <ChevronDownIcon className="size-5 text-gray-400" />
-            </PopoverButton>
+        
 
-            <PopoverPanel className="absolute top-full -left-8 z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
-              <div className="p-4">
-                {products.map((item) => (
-                  <div key={item.name} className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm hover:bg-gray-50">
-                    <div className="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                      <item.icon className="size-6 text-gray-600 group-hover:text-indigo-600" />
-                    </div>
-                    <div className="flex-auto">
-                      <a href={item.href} className="block font-semibold text-gray-900">{item.name}</a>
-                      <p className="mt-1 text-gray-600">{item.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </PopoverPanel>
-          </Popover>
-
-          <a href="#" className="text-sm font-semibold text-white">Features</a>
-          <a href="#" className="text-sm font-semibold text-white">Marketplace</a>
-          <a href="#" className="text-sm font-semibold text-white">Company</a>
-        </PopoverGroup>
+          
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {user ? (
