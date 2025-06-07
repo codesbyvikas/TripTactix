@@ -17,50 +17,61 @@ export function CarouselDays({ itineraryResult }) {
     return null;
   }
 
+  const tipItem = itineraryResult.find((item) => item.title === "Additional_Tip");
+  const days = itineraryResult.filter((item) => item.title !== "Additional_Tip");
+
   return (
     <Carousel className="w-full border border-blue-500 bg-[#0A1429] rounded-lg shadow-lg">
       <CarouselContent>
-        {itineraryResult.map((item, index) => {
-          const isAdditionalTip = item.title === "Additional_Tip";
+        {/* Render all day-wise cards */}
+        {days.map((item, index) => (
+          <CarouselItem key={index}>
+            <Card className="bg-[rgba(255,255,255,0.05)] border border-white/10 rounded-lg flex flex-col justify-center items-center h-full">
+              <CardContent className="p-6 text-white space-y-6 flex flex-col justify-center items-center w-full">
+                {/* Title and Navigation */}
+                <div className="flex items-center justify-between w-full">
+                  <CarouselPrevious className="static relative top-0 left-0" />
+                  <h2 className="text-2xl font-bold text-center flex-1">
+                    {item.title}
+                  </h2>
+                  <CarouselNext className="static relative top-0 right-0" />
+                </div>
 
-          return (
-            <CarouselItem key={index}>
-              <Card className="bg-[rgba(255,255,255,0.05)] border border-white/10 rounded-lg flex flex-col justify-center items-center h-full">
-                <CardContent className="p-6 text-white space-y-6 flex flex-col justify-center items-center w-full">
+                {/* Segments */}
+                <TimeLine segments={item.segments} />
 
-                  {/* Title and Buttons Row */}
-                  <div className="flex items-center justify-between w-full">
-                    <CarouselPrevious className="static relative top-0 left-0" />
-                    <h2 className="text-2xl font-bold text-center flex-1">
-                      {isAdditionalTip ? item.title.replace('_', ' ') : item.title}
-                    </h2>
-                    <CarouselNext className="static relative top-0 right-0" />
-                  </div>
+                {/* Tip Section (if present) */}
+                {tipItem && (
+                  <TextDisplay
+                    title="💡 Travel Tip"
+                    content={tipItem.description}
+                  />
+                )}
+              </CardContent>
+            </Card>
+          </CarouselItem>
+        ))}
 
-                  {isAdditionalTip ? (
-                    // For Additional_Tip, use TextDisplay to show its single description
-                    <TextDisplay
-                      title={item.title.replace('_', ' ')} // Or a more generic "Tips"
-                      content={item.description} // Direct access to description
-                    />
-                  ) : (
-                    // For regular days, use TimeLine for segments
-                    <TimeLine segments={item.segments} />
-                  )}
+        {/* Standalone Tip Slide */}
+        {tipItem && (
+          <CarouselItem key="tip">
+            <Card className="bg-[rgba(255,255,255,0.05)] border border-yellow-500 rounded-lg flex flex-col justify-center items-center h-full">
+              <CardContent className="p-6 text-white space-y-6 flex flex-col justify-center items-center w-full">
+                <div className="flex items-center justify-between w-full">
+                  <CarouselPrevious className="static relative top-0 left-0" />
+                  <h2 className="text-2xl font-bold text-center flex-1 text-yellow-400">
+                    Travel Tip
+                  </h2>
+                  <CarouselNext className="static relative top-0 right-0" />
+                </div>
 
-                  {/* This TextDisplay appears to be for general fixed info.
-                      Only show this fixed text for regular days, not the tip slide. */}
-                  {!isAdditionalTip && (
-                    <TextDisplay
-                      title="General Trip Information"
-                      content="The average temperature during your trip is expected to be 22°C with light showers on Day 2."
-                    />
-                  )}
-                </CardContent>
-              </Card>
-            </CarouselItem>
-          );
-        })}
+                <p className="text-base leading-relaxed text-white text-left">
+                  {tipItem.description}
+                </p>
+              </CardContent>
+            </Card>
+          </CarouselItem>
+        )}
       </CarouselContent>
     </Carousel>
   );
