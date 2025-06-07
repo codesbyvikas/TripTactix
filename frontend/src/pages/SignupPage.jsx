@@ -81,11 +81,20 @@ const SignupPage = () => {
                     </div>
                 </div>
 
-                <div className='w-full flex items-center justify-center mt-6 md:mt-10'>
-                    <p className='text-sm font-normal text-white text-center'>
-                        Already have an account? <span className='font-semibold text-white cursor-pointer underline'><a href='/login'>Log In</a></span>
-                    </p>
-                </div>
+                <div className="w-full flex items-center justify-center mt-6 md:mt-10 ">
+                <p className="text-sm font-normal text-white text-center flex items-center gap-1">
+                Don't have an account?
+                <button
+                    onClick={() => {
+                    // setMobileMenuOpen(false);
+                    navigate("/logingit");
+                    }}
+                    className="text-sm font-semibold text-white hover:underline cursor-pointer"
+                >
+                    Login
+                </button>
+                </p>
+            </div>
             </div>
         </div>
     );
