@@ -13,6 +13,7 @@ TripTactix is a AI powered full-stack itinerary planner web application built us
 - 📋 Generates day-wise itineraries
 - 🔁 Smooth navigation using React Router and state management
 - 🌐 Responsive design suitable for all devices
+- 🔐 User authentication using JWT tokens for secure login and protected routes
 
 ---
 
