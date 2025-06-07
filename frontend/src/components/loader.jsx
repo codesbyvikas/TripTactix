@@ -4,7 +4,7 @@ import 'ldrs/react/Spiral.css'
 
 
 
-const CustomLoader = ({ message = "Planning your adventure..." }) => {
+const CustomLoader = () => {
   return (
     // Default values shown
         <Spiral
