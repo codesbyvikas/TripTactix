@@ -19,7 +19,6 @@ const userSchema = new Schema({
   },
 }, { timestamps: true });
 
-// Hash password before saving
 userSchema.pre("save", function (next) {
   const user = this;
 
