@@ -51,7 +51,6 @@ function App() {
       />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/login" element={<LoginPage />} />
-      {/* <Route path="/itinerary-result" element={<ItineraryDisplayPage />} /> */}
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

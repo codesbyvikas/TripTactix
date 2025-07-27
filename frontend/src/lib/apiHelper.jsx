@@ -5,7 +5,6 @@ const API_URL = import.meta.env.VITE_API_BASE_URL;
 export const apiHelper = {
   signup: async ({ fullName, email, password }) => {
     try {
-      console.log(API_URL);
       const response = await axios.post(`${API_URL}/user/signup`, {
         fullName,
         email,
@@ -43,21 +42,14 @@ export const apiHelper = {
       if (![200, 201].includes(response.status) || response.data.error) {
         return { error: response.data.error || "Login failed" };
       }
-
-      // Debug: Log response headers to see if cookie is set
-      console.log("Login response headers:", response.headers);
-      console.log("Login success:", response.data);
-
       return { data: response.data };
     } catch (error) {
-      console.error("Login API error:", error);
       return { error: error.response?.data?.error || error.message || "Network error" };
     }
   },
 
   getProfile: async () => {
     try {
-      // Debug: Log current cookies
       console.log("Current cookies:", document.cookie);
       
       const response = await axios.get(`${API_URL}/user/profile`, {
@@ -72,10 +64,6 @@ export const apiHelper = {
       return { data: response.data.user };
     } catch (error) {
       console.error("Profile API error:", error);
-      
-      // Debug: Log request details
-      console.log("Request config:", error.config);
-      console.log("Request headers:", error.config?.headers);
       
       return { error: error.response?.data?.error || error.message || "Network error" };
     }

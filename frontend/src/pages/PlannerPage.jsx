@@ -3,8 +3,8 @@ import {
   BrowserRouter as Router, 
   Routes, 
   Route, 
-  useNavigate,  // Import useNavigate hook
-  useLocation   // Import useLocation hook (for receiving data)
+  useNavigate,  
+  useLocation   
 } from 'react-router-dom'
 import CustomDatePicker from '../components/datePicker'
 import { MapPinIcon, CalendarIcon, SearchIcon, HeartIcon, DollarSignIcon, UsersIcon, AlertCircleIcon } from "lucide-react"
@@ -35,7 +35,6 @@ const PlannerPage = () => {
     return amount.toLocaleString('en-IN')
   }
 
-  // Calculate trip duration whenever dates change
   useEffect(() => {
     setIsLoading(true);
     if (startDate && endDate) {
@@ -55,7 +54,6 @@ const PlannerPage = () => {
     setIsLoading(false);
   }, [startDate, endDate])
 
-  // Handle adding custom interests
   const handleAddInterest = () => {
     if (customInterest.trim()) {
       setInterests(interests ? `${interests}, ${customInterest.trim()}` : customInterest.trim())
@@ -63,7 +61,6 @@ const PlannerPage = () => {
     }
   }
 
-  // Handle key press for custom interest
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleAddInterest()
@@ -76,7 +73,6 @@ const PlannerPage = () => {
     "Food Tours", "Adventure Sports", "Wildlife", "Shopping"
   ];
 
-  //
   const handlePlanItinerary = async () =>  {
   let valid = true;
 
@@ -163,12 +159,10 @@ const PlannerPage = () => {
 }
 };
 
-  // In PlannerPage.jsx
 
 const handlePrompt = (tripData) => {
   const { tripDays, startDate, endDate, location, tripType, peopleCount, budget, interests } = tripData;
 
-  // Convert tripType to descriptive phrase
   let peoplePhrase = '';
   if (tripType === 'individual') {
     peoplePhrase = 'an individual traveler';
@@ -178,28 +172,22 @@ const handlePrompt = (tripData) => {
     peoplePhrase = `a group of ${peopleCount} people`;
   }
 
-  // Format interests as a readable string
   const interestList = interests.join(', ');
 
-  // Format budget with commas
   const formattedBudget = budget.toLocaleString('en-IN');
 
-  // Format dates as YYYY-MM-DD for consistency (or DD/MM/YYYY if you strictly need that)
   const formatDate = (dateStr) => {
     const d = new Date(dateStr);
     const year = d.getFullYear();
     const month = String(d.getMonth() + 1).padStart(2, '0');
     const day = String(d.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`; // Or `${day}/${month}/${year}` if you prefer that for prompt display
+    return `${year}-${month}-${day}`;
   };
 
   const formattedStartDate = formatDate(startDate);
   const formattedEndDate = formatDate(endDate);
 
-  // Construct the prompt string
-  // IMPORTANT: Ensure all JSON keys in the example are double-quoted.
-  // Also, adjust the Additional_Tip structure in the example to match what the API provides.
-  // Based on your latest error, Additional_Tip has a direct "description" property, not "segments".
+ 
   const prompt = `Plan an itinerary for ${tripDays + 1} days starting from ${formattedStartDate} to ${formattedEndDate} to ${location} with ${peoplePhrase} within a budget of ₹${formattedBudget}. Include activities like ${interestList}. Also give an additional travel tip or detail in a separate object.
 
 Provide the response as a **strict JSON array**. Do NOT include 'const itinerary = ' or any other JavaScript code. The entire response should be a JSON array. Each day should be an object with a "title" and a "segments" array. The "Additional_Tip" should be a separate object in the array with a "title" and a "description" property.
@@ -232,7 +220,6 @@ Here is the exact JSON format I require:
 \`\`\`
 `;
 
-  console.log("Generated Prompt:", prompt);
   return prompt;
 };
 
@@ -298,9 +285,7 @@ if(isLoading){
           </div>
         )}
         
-        {/* Main Planning Form */}
         <div className="w-full md:w-[650px] bg-gray-900 rounded-xl p-6 shadow-lg">
-          {/* Location Input */}
           <div className="mb-6">
             <label className="block text-white text-lg font-medium mb-2">Where do you want to go?</label>
             <div className="relative">
@@ -421,7 +406,6 @@ if(isLoading){
           </div>
 
 
-          {/* Budget Selector - Updated for Indian Rupees */}
           <div className="mb-6">
             <label className="block text-white text-lg font-medium mb-2">What's your budget?</label>
             <div className="relative">
@@ -446,7 +430,6 @@ if(isLoading){
             </div>
           </div>
 
-          {/* Trip Type and People Count */}
           
           {/* Custom Interests Input */}
           <div className="mb-6">
@@ -501,7 +484,6 @@ if(isLoading){
               </div>
             )}
                         
-            {/* Popular Interests Tags */}
             <div className="mt-3">
               <p className="text-white text-sm mb-1">Popular interests:</p>
               <div className="flex flex-wrap gap-2">
@@ -530,13 +512,6 @@ if(isLoading){
             Plan Perfect Itinerary
             
           </button>
-
-          {/* {formError && (
-          <div className="mt-3 text-red-400 text-sm flex items-center">
-            <AlertCircleIcon className="h-4 w-4 mr-1" />
-            {formError}
-          </div>
-          )} */}
         </div>
       </div>
     </div>
