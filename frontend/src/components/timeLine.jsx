@@ -3,7 +3,6 @@ import React from 'react';
 const TimeLine = ({ segments }) => {
   return (
     <div className="relative flex flex-col gap-6 py-10 h-full">
-      {/* Vertical Line */}
       <div className="absolute left-1/2 top-0 h-full w-1 bg-gray-300 -translate-x-1/2 z-0 animate-moveline"></div>
 
       {segments.map((segment, idx) => (

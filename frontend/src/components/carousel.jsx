@@ -23,7 +23,6 @@ export function CarouselDays({ itineraryResult }) {
   return (
     <Carousel className="w-full border border-blue-500 bg-[#0A1429] rounded-lg shadow-lg">
       <CarouselContent>
-        {/* Render all day-wise cards */}
         {days.map((item, index) => (
           <CarouselItem key={index}>
             <Card className="bg-[rgba(255,255,255,0.05)] border border-white/10 rounded-lg flex flex-col justify-center items-center h-full">
